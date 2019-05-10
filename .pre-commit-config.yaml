@@ -1,0 +1,24 @@
+repos:
+  -   repo: https://github.com/ambv/black
+      rev: 19.3b0
+      hooks:
+        - id: black
+          language_version: python3.7
+
+  -   repo: https://github.com/PyCQA/bandit
+      rev: master
+      hooks:
+      - id: bandit
+        # exclude tests because bandit doesn't like assert being used
+        exclude: ^(conf)?test_?.*py$
+
+  -   repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.1.0
+      hooks:
+        - id: check-byte-order-marker
+        - id: check-docstring-first
+        - id: check-json
+        - id: check-merge-conflict
+        - id: double-quote-string-fixer
+        - id: end-of-file-fixer
+        - id: trailing-whitespace
