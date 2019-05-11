@@ -1,5 +1,5 @@
 # sonarrpy
-A client used for interacting with Sonarr API.
+This is an unofficially supported client for interacting with the Sonarr API.
 
 
 Requirements
