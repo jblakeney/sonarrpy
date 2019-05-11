@@ -1,5 +1,5 @@
 import logging
-from typing import Dict
+from typing import Dict, List, Union
 
 import requests
 
@@ -16,26 +16,42 @@ class RestClient(object):
 
         self._session = requests.Session()
 
-    def _construct_url(self, path: str) -> str:
-        return f"{self._url}/{self._api_root}{path}?apikey={self._api_key}"
+    def _delete(self, path: str, params: Dict = None) -> Union[List, Dict]:
+        return self._send(method="DELETE", path=path, params=params)
 
-    def _delete(self, path: str) -> Dict:
-        return self._send(method="DELETE", path=path)
+    def _get(self, path: str, params: Dict = None) -> Union[List, Dict]:
+        return self._send(method="GET", path=path, params=params)
 
-    def _get(self, path: str) -> Dict:
-        return self._send(method="GET", path=path)
+    def _put(
+        self, path: str, params: Dict = None, data: Dict = None
+    ) -> Union[List, Dict]:
+        return self._send(method="PUT", path=path, params=params, data=data)
 
-    def _put(self, path: str, data: dict) -> Dict:
-        return self._send(method="PUT", path=path, data=data)
+    def _post(
+        self, path: str, params: Dict = None, data: Dict = None
+    ) -> Union[List, Dict]:
+        return self._send(method="POST", path=path, params=params, data=data)
 
-    def _post(self, path: str, data: dict) -> Dict:
-        return self._send(method="POST", path=path, data=data)
+    def _send(
+        self,
+        method: str = "GET",
+        path: str = "/",
+        params: Dict = None,
+        data: Dict = None,
+    ) -> Union[List, Dict]:
+        # Build our URL
+        url = f"{self._url}/{self._api_root}{path}"
 
-    def _send(self, method: str = "GET", path: str = "/", data: dict = None) -> Dict:
-        url = self._construct_url(path)
+        # Update our params and add the API Key
+        params.update({"apikey": self._api_key})
 
         response = self._session.request(
-            method=method, url=url, json=data, headers=self.default_headers, timeout=60
+            method=method,
+            url=url,
+            params=params,
+            json=data,
+            headers=self.default_headers,
+            timeout=60,
         )
 
         try:
