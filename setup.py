@@ -1,15 +1,15 @@
 from distutils.core import setup
 
 setup(
-    name="sonarrpy",
-    packages=["sonarrpy"],
+    name="nzbclients",
+    packages=["nzbclients"],
     version="0.1.0",
     license="MIT",
-    description="This is an unofficially supported client for interacting with the Sonarr API.",
+    description="A library of unofficial library of clients for interacting with programs that download NZB files.",
     author="Jeff Blakeney",
     author_email="jblakeneypypi@gmail.com",
     url="https://github.com/jblakeney/sonarrpy",
-    keywords=["Sonarr", "NZBDrone"],
+    keywords=["Radarr", "SABnzbd", "Sonarr", "NZBDrone"],
     install_requires=["requests"],
     classifiers=[
         "Development Status :: 3 - Alpha",
