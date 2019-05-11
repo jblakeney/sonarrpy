@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Union
 
-from sonarrpy.rest_client import RestClient
+from nzbclient.rest_client import RestClient
 
 logger = logging.getLogger(__name__)
 

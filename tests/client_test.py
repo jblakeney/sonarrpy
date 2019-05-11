@@ -1,4 +1,4 @@
-from sonarrpy import SonarrClient
+from nzbclient import SonarrClient
 
 
 def test_client():
