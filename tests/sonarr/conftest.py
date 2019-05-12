@@ -40,7 +40,7 @@ def episode_obj():
 @pytest.fixture()
 def episode_json():
     yield json.loads(
-        """{
+        r"""{
         "seriesId": 1,
         "episodeFileId": 0,
         "seasonNumber": 1,
@@ -145,7 +145,7 @@ def series_obj():
 @pytest.fixture()
 def series_json():
     yield json.loads(
-        """{
+        r"""{
         "title": "Marvel's Daredevil",
         "alternateTitles": [{
           "title": "Daredevil",
@@ -244,7 +244,7 @@ def system_status_obj():
         os_version="6.2.9200.0",
         is_mono=False,
         is_linux=False,
-        is_windows=False,
+        is_windows=True,
         branch="develop",
         authentication=False,
         start_of_week=0,
@@ -255,7 +255,7 @@ def system_status_obj():
 @pytest.fixture()
 def system_status_json():
     yield json.loads(
-        """{
+        r"""{
       "version": "2.0.0.1121",
       "buildTime": "2014-02-08T20:49:36.5560392Z",
       "isDebug": false,
@@ -289,13 +289,13 @@ def disk_space_obj():
 def disk_space_json():
     yield json.loads(
         r"""[
-      {
-        "path": "C:\\",
-        "label": "",
-        "freeSpace": 282500067328,
-        "totalSpace": 499738734592
-      }
-    ]"""
+           {
+              "path":"C:\\",
+              "label":"",
+              "freeSpace":282500067328,
+              "totalSpace":499738734592
+           }
+        ]"""
     )
 
 
@@ -376,7 +376,7 @@ def profile_obj():
 @pytest.fixture()
 def profile_json():
     yield json.loads(
-        """[
+        r"""[
       {
         "name": "SD",
         "cutoff": {
@@ -704,7 +704,7 @@ def profile_json():
 @pytest.fixture()
 def root_folder_json():
     yield json.loads(
-        """[
+        r"""[
       {
         "path": "C:\\Downloads\\TV",
         "freeSpace": 282500063232,
@@ -716,7 +716,9 @@ def root_folder_json():
 
 
 @pytest.fixture()
-def root_folder_json():
-    yield RootFolder(
-        path="C:\\Downloads\\TV", free_space=282500063232, unmapped_folders=[], id=1
-    )
+def root_folder_obj():
+    yield [
+        RootFolder(
+            path="C:\\Downloads\\TV", free_space=282500063232, unmapped_folders=[], id=1
+        )
+    ]

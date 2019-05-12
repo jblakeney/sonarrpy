@@ -28,7 +28,7 @@ class RootFolder(object):
         unmapped_folders: List = None,
         id: int = None,
     ):
-        self.path = (path,)
+        self.path = path
         self.free_space = free_space
         self.unmapped_folders = unmapped_folders
         self.id = id
@@ -94,7 +94,7 @@ class RootFolderSchema(Schema):
         allow_none = False
 
     path = fields.Str()
-    free_space = fields.Str(data_key="freeSpace")
+    free_space = fields.Int(data_key="freeSpace")
     unmapped_folders = fields.List(fields.Str(), data_key="unmappedFolders")
     id = fields.Int()
 
@@ -121,8 +121,8 @@ class SystemStatusSchema(Schema):
     is_mono = fields.Bool(data_key="isMono")
     is_linux = fields.Bool(data_key="isLinux")
     is_windows = fields.Bool(data_key="isWindows")
-    branch = fields.Str(data_key="develop")
-    authentication = fields.Str()
+    branch = fields.Str()
+    authentication = fields.Bool()
     start_of_week = fields.Int(data_key="startOfWeek")
     url_base = fields.Str(data_key="urlBase")
 
