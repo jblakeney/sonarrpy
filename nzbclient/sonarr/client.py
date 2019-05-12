@@ -3,6 +3,7 @@ from typing import Dict, List, Union
 
 from nzbclient.rest_client import RestClient
 from nzbclient.sonarr.domain.episode import Episode, EpisodeSchema
+from nzbclient.sonarr.domain.profile import Profile, ProfileSchema
 from nzbclient.sonarr.domain.series import Series, SeriesSchema
 from nzbclient.sonarr.domain.system import (
     DiskSpace,
@@ -12,7 +13,6 @@ from nzbclient.sonarr.domain.system import (
     SystemStatus,
     SystemStatusSchema,
 )
-from nzbclient.sonarr.domain.profile import Profile, ProfileSchema
 
 logger = logging.getLogger(__name__)
 
@@ -153,3 +153,4 @@ class SonarrClient(RestClient):
 if __name__ == "__main__":
     client = SonarrClient("http://server-pc:8989", "49095f567f67413cb5956f8032950f7e")
     print(client.get_series(1))
+    print(client.get_profile())

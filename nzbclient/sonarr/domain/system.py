@@ -1,5 +1,5 @@
-from typing import List
 from datetime import datetime
+from typing import List
 
 from marshmallow import Schema, fields
 

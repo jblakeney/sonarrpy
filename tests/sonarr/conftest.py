@@ -4,6 +4,7 @@ from datetime import date, datetime
 import pytest
 
 from nzbclient.sonarr.domain.episode import Episode
+from nzbclient.sonarr.domain.profile import Item, Profile, Quality
 from nzbclient.sonarr.domain.series import (
     AlternateTitle,
     Image,
@@ -13,7 +14,6 @@ from nzbclient.sonarr.domain.series import (
     Statistics,
 )
 from nzbclient.sonarr.domain.system import DiskSpace, RootFolder, SystemStatus
-from nzbclient.sonarr.domain.profile import Item, Profile, Quality
 
 
 @pytest.fixture()
