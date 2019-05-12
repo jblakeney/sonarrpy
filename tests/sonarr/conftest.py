@@ -1,13 +1,14 @@
-import pytest
 import json
 from datetime import datetime
 
+import pytest
+
 from nzbclient.sonarr.series import (
-    Series,
     AlternateTitle,
-    Ratings,
     Image,
+    Ratings,
     Season,
+    Series,
     Statistics,
 )
 

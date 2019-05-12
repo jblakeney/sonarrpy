@@ -1,6 +1,7 @@
 from datetime import datetime
-from marshmallow import Schema, fields, post_load
 from typing import List, Union
+
+from marshmallow import Schema, fields
 
 
 class AlternateTitle(object):

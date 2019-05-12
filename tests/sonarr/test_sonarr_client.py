@@ -2,7 +2,6 @@ import requests_mock
 
 from nzbclient import SonarrClient
 
-
 MOCK_URL = "http://localhost:9999"
 MOCK_API_KEY = "TEST_API_KEY"
 

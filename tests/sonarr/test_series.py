@@ -1,5 +1,4 @@
 import pytest
-
 from marshmallow import ValidationError
 
 from nzbclient.sonarr.series import SeriesSchema
