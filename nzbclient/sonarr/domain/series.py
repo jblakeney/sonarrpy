@@ -3,7 +3,7 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.common import Ratings, Image, SonarrDateTime, RatingsSchema, ImageSchema
+from nzbclient.common import Image, ImageSchema, Ratings, RatingsSchema, SonarrDateTime
 
 
 class AlternateTitle(object):

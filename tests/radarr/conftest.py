@@ -1,10 +1,10 @@
-import pytest
 import json
-
 from datetime import datetime
 
+import pytest
+
 from nzbclient.common import Image, Ratings
-from nzbclient.radarr.domain import Movie
+from nzbclient.radarr.domain.movie import AlternateTitle, Movie
 
 
 @pytest.fixture()
@@ -46,7 +46,9 @@ def movie_obj():
         tags=[],
         added=datetime(2017, 1, 14, 20, 18, 52, 938244),
         ratings=Ratings(votes=711, value=5.2),
-        alternative_titles=["Assassin's Creed: The IMAX Experience"],
+        alternative_titles=[
+            AlternateTitle(title="Assassin's Creed: The IMAX Experience")
+        ],
         quality_profile_id=6,
         id=1,
     )
@@ -101,7 +103,9 @@ def movie_json():
         "value": 5.2
       },
       "alternativeTitles": [
-        "Assassin's Creed: The IMAX Experience"
+        {
+          "title": "Assassin's Creed: The IMAX Experience"
+        }
       ],
       "qualityProfileId": 6,
       "id": 1

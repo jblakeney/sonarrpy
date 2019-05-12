@@ -46,7 +46,7 @@ class SonarrClient(RestClient):
 
         return self.system_status.load(result)
 
-    def get_profile(self) -> List[Profile]:
+    def get_profiles(self) -> List[Profile]:
         """
         Gets a list of all available quality profiles
         """
@@ -153,4 +153,4 @@ class SonarrClient(RestClient):
 if __name__ == "__main__":
     client = SonarrClient("http://server-pc:8989", "49095f567f67413cb5956f8032950f7e")
     print(client.get_series(1))
-    print(client.get_profile())
+    print(client.get_profiles())

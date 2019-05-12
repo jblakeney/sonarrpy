@@ -1,9 +1,42 @@
-from typing import List
 from datetime import datetime
+from typing import List
 
 from marshmallow import Schema, fields
 
 from nzbclient.common import Image, ImageSchema, Ratings, RatingsSchema
+
+{
+    "sourceType": "tmdb",
+    "movieId": 1,
+    "title": "Legally Blonde 1",
+    "sourceId": 8835,
+    "votes": 0,
+    "voteCount": 0,
+    "language": "english",
+    "id": 1,
+},
+
+
+class AlternateTitle(object):
+    def __init__(
+        self,
+        source_type: str = None,
+        movie_id: int = None,
+        title: str = None,
+        source_id: int = None,
+        votes: int = None,
+        vote_count: int = None,
+        language: str = None,
+        id: int = None,
+    ):
+        self.source_type = source_type
+        self.movie_id = movie_id
+        self.title = title
+        self.source_id = source_id
+        self.votes = votes
+        self.vote_count = vote_count
+        self.language = language
+        self.id = id
 
 
 class Movie(object):
@@ -36,13 +69,13 @@ class Movie(object):
         tags: List[str] = None,
         added: datetime = None,
         ratings: Ratings = None,
-        alternative_titles: List[str] = None,
+        alternative_titles: List[AlternateTitle] = None,
         quality_profile_id: int = None,
         id: int = None,
     ):
         self.title: str = title
         self.sort_title: str = sort_title
-        self.size_on_disk: str = size_on_disk
+        self.size_on_disk: int = size_on_disk
         self.status: str = status
         self.overview: str = overview
         self.in_cinemas: datetime = in_cinemas
@@ -67,9 +100,29 @@ class Movie(object):
         self.tags: List[str] = tags
         self.added: datetime = added
         self.ratings: Ratings = ratings
-        self.alternative_titles: List[str] = alternative_titles
+        self.alternative_titles: List[AlternateTitle] = alternative_titles
         self.quality_profile_id: int = quality_profile_id
         self.id: int = id
+
+
+class AlternateTitleSchema(Schema):
+    class Meta:
+        unknown = "EXCLUDE"
+        allow_none = False
+
+    source_type = fields.Str(data_key="sourceType")
+    movie_id = fields.Int(data_key="movieId")
+    title = fields.Str()
+    source_id = fields.Int(data_key="sourceId")
+    votes = fields.Int()
+    vote_count = fields.Int(data_key="voteCount")
+    language = fields.Str()
+    id = fields.Int()
+
+    def load(self, data, many=None, partial=None, unknown=None) -> AlternateTitle:
+        obj = super(Schema, self).load(data, many, partial, unknown)
+
+        return AlternateTitle(**obj)
 
 
 class MovieSchema(Schema):
@@ -104,7 +157,9 @@ class MovieSchema(Schema):
     tags = fields.List(fields.Str())
     added = fields.DateTime()
     ratings = fields.Nested(RatingsSchema)
-    alternative_titles = fields.List(fields.Str(), data_key="alternativeTitles")
+    alternative_titles = fields.List(
+        fields.Nested(AlternateTitleSchema()), data_key="alternativeTitles"
+    )
     quality_profile_id = fields.Int(data_key="qualityProfileId")
     id = fields.Int()
 
