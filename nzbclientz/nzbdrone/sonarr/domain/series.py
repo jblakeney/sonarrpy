@@ -3,7 +3,7 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.nzbdrone.common import (
+from nzbclientz.nzbdrone.common import (
     Image,
     ImageSchema,
     Ratings,

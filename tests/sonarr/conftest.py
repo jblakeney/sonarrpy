@@ -3,10 +3,10 @@ from datetime import date, datetime
 
 import pytest
 
-from nzbclient.nzbdrone.common import Image, Ratings
-from nzbclient.nzbdrone.sonarr import Episode
-from nzbclient.nzbdrone.sonarr.domain.profile import Item, Profile, Quality
-from nzbclient.nzbdrone.sonarr.domain.series import (
+from nzbclientz.nzbdrone.common import Image, Ratings
+from nzbclientz.nzbdrone.sonarr import Episode
+from nzbclientz.nzbdrone.sonarr.domain.profile import Item, Profile, Quality
+from nzbclientz.nzbdrone.sonarr.domain.series import (
     AlternateTitle,
     Season,
     Series,

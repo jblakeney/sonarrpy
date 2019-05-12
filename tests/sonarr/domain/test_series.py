@@ -1,7 +1,7 @@
 import pytest
 from marshmallow import ValidationError
 
-from nzbclient.nzbdrone.sonarr.domain.series import SeriesSchema
+from nzbclientz.nzbdrone.sonarr.domain.series import SeriesSchema
 
 
 def test_series_serialization(series_json):

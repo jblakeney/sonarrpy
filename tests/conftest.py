@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytest
 
-from nzbclient import DiskSpace, RootFolder, SystemStatus
+from nzbclientz import DiskSpace, RootFolder, SystemStatus
 
 
 @pytest.fixture()

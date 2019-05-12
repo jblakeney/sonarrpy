@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from nzbclient.nzbdrone.sonarr.domain.episode import EpisodeSchema
+from nzbclientz.nzbdrone.sonarr.domain.episode import EpisodeSchema
 
 
 def test_episode_serialization(episode_json):

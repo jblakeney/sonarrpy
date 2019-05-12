@@ -1,7 +1,7 @@
 import pytest
 import requests_mock
 
-from nzbclient import RadarrClient
+from nzbclientz import RadarrClient
 
 MOCK_URL = "http://localhost:9999"
 MOCK_API_KEY = "TEST_API_KEY"
