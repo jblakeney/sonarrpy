@@ -1,5 +1,8 @@
-# nzbclients
-A library of unofficial library of clients for interacting with programs that download NZB files.
+NZB Clients
+===========
+[![Build Status](https://travis-ci.org/jblakeney/nzbclients.svg?branch=master)](https://travis-ci.org/jblakeney/nzbclients)
+
+A collection of unofficial client libraries for interacting with programs that download NZB files.
 
 Supported clients so far are:
 - Sonarr
@@ -12,7 +15,6 @@ Requirements
 ============
 
 - Python >= 3.6
-
 
 License
 =======
