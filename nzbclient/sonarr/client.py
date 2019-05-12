@@ -2,6 +2,7 @@ import logging
 from typing import Dict, List, Union
 
 from nzbclient.rest_client import RestClient
+from nzbclient.sonarr.episode import Episode, EpisodeSchema
 from nzbclient.sonarr.series import Series, SeriesSchema
 
 logger = logging.getLogger(__name__)
@@ -14,29 +15,30 @@ SYSTEM_STATUS_ENDPOINT = "/system/status"
 
 
 class SonarrClient(RestClient):
+    episode_schema = EpisodeSchema()
     series_schema = SeriesSchema()
 
     def get_diskspace(self) -> List[Dict]:
         """
         Gets the information on the diskspace of the configured drives
         """
-        return self._get(DISKSPACE_ENDPOINT)
+        return self._get(path=DISKSPACE_ENDPOINT)
 
     def get_system_status(self) -> Dict:
         """
         Gets the system status from the Sonarr server
         """
-        return self._get(SYSTEM_STATUS_ENDPOINT)
+        return self._get(path=SYSTEM_STATUS_ENDPOINT)
 
     def get_profile(self) -> List[Dict]:
         """
         Gets a list of all available quality profiles
         """
-        return self._get(PROFILE_ENDPOINT)
+        return self._get(path=PROFILE_ENDPOINT)
 
-    def get_episode(self, episode_id: int = None, series_id: int = None):
+    def get_episode(self, episode_id: int = None, series_id: int = None) -> Episode:
         """
-        Gets the specified Episode by either Series Id, or Episode Id. Only one should be specifeid
+        Gets the specified Episode by either Series Id, or Episode Id. Only one should be specified
 
         :param episode_id:
         :param series_id:
@@ -54,21 +56,28 @@ class SonarrClient(RestClient):
         else:
             raise ValueError("One of Episode Id or Series Id must be specified.")
 
-        return self._get(path, params=params)
+        result = self._get(path=path, params=params)
 
-    def update_episode(self, episode_data: dict) -> Dict:
+        return self.episode_schema.load(result)
+
+    def update_episode(self, episode: Episode) -> Episode:
         """
         Updates a episode, recommended to do a GET on a specific episode, and modify the required data
 
-        :param episode_data: The entire dict of the Episode data
+        :param episode: An Episode object
         """
-        return self._put(EPISODE_ENDPOINT, episode_data)
+
+        episode_data = self.episode_schema.dump(episode)
+
+        result = self._put(path=EPISODE_ENDPOINT, data=episode_data)
+
+        return self.episode_schema.load(result)
 
     def add_series(self, series: Series, add_options: Dict = None) -> Series:
         """
         Adds a series to Sonarr with the specified data.
 
-        :param series: A Series object
+        :param series: An Series object
         :param add_options: A dict of the add options
         """
 
@@ -91,7 +100,7 @@ class SonarrClient(RestClient):
 
         path = f"{SERIES_ENDPOINT}/{series_id}" if series_id else SERIES_ENDPOINT
 
-        result = self._get(path)
+        result = self._get(path=path)
 
         if isinstance(result, list):
             return [self.series_schema.load(x) for x in result]
@@ -102,13 +111,13 @@ class SonarrClient(RestClient):
         """
         Updates a series, recommended to do a GET on a specific series, and modify the required data
 
-        :param series: A Series object
+        :param series: An Series object
         """
 
         # Dump the data from the passed in object
         series_data = self.series_schema.dump(series)
 
-        result = self._put(SERIES_ENDPOINT, series_data)
+        result = self._put(path=SERIES_ENDPOINT, data=series_data)
 
         return self.series_schema.load(result)
 
@@ -120,7 +129,7 @@ class SonarrClient(RestClient):
         """
         path = f"{SERIES_ENDPOINT}/{series_id}" if series_id else SERIES_ENDPOINT
 
-        return self._delete(path)
+        return self._delete(path=path)
 
 
 if __name__ == "__main__":

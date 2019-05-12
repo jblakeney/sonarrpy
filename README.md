@@ -17,4 +17,4 @@ Requirements
 License
 =======
 
-MIT licensed. See the bundled `LICENSE <https://github.com/jblakeney/sonarrpy/blob/master/LICENSE>`_ file for more details.
+MIT licensed. See the bundled `LICENSE <https://github.com/jblakeney/nzbclients/blob/master/LICENSE>`_ file for more details.

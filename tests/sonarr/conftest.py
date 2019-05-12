@@ -1,8 +1,9 @@
 import json
-from datetime import datetime
+from datetime import date, datetime
 
 import pytest
 
+from nzbclient.sonarr.episode import Episode
 from nzbclient.sonarr.series import (
     AlternateTitle,
     Image,
@@ -14,8 +15,52 @@ from nzbclient.sonarr.series import (
 
 
 @pytest.fixture()
+def episode_obj():
+    yield Episode(
+        series_id=1,
+        episode_file_id=0,
+        season_number=1,
+        episode_number=1,
+        title="Mole Hunt",
+        air_date=date(2009, 9, 17),
+        air_date_utc=datetime(2009, 9, 18, 2),
+        overview="Archer is in trouble with his Mother and the Comptroller because his expense account is way out of proportion to his actual expenses. So he creates the idea that a Mole has breached ISIS and he needs to get into the mainframe to hunt him down (so he can cover his tracks!). All this leads to a surprising ending.",
+        has_file=False,
+        monitored=True,
+        scene_episode_number=0,
+        scene_season_number=0,
+        tv_db_episode_id=0,
+        absolute_episode_number=1,
+        id=1,
+    )
+
+
+@pytest.fixture()
+def episode_json():
+    yield json.loads(
+        """{
+        "seriesId": 1,
+        "episodeFileId": 0,
+        "seasonNumber": 1,
+        "episodeNumber": 1,
+        "title": "Mole Hunt",
+        "airDate": "2009-09-17",
+        "airDateUtc": "2009-09-18T02:00:00Z",
+        "overview": "Archer is in trouble with his Mother and the Comptroller because his expense account is way out of proportion to his actual expenses. So he creates the idea that a Mole has breached ISIS and he needs to get into the mainframe to hunt him down (so he can cover his tracks!). All this leads to a surprising ending.",
+        "hasFile": false,
+        "monitored": true,
+        "sceneEpisodeNumber": 0,
+        "sceneSeasonNumber": 0,
+        "tvDbEpisodeId": 0,
+        "absoluteEpisodeNumber": 1,
+        "id": 1
+      }"""
+    )
+
+
+@pytest.fixture()
 def series_obj():
-    series = Series(
+    yield Series(
         title="Marvel's Daredevil",
         alternate_titles=[AlternateTitle(title="Daredevil", season_number=-1)],
         sort_title="marvels daredevil",
@@ -93,8 +138,6 @@ def series_obj():
         quality_profile_id=6,
         id=7,
     )
-
-    yield series
 
 
 @pytest.fixture()
