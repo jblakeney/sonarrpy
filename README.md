@@ -1,4 +1,4 @@
-# sonarrpy
+# nzbclients
 A library of unofficial library of clients for interacting with programs that download NZB files.
 
 Supported clients so far are:

@@ -2,6 +2,7 @@ import logging
 from typing import Dict, List, Union
 
 from nzbclient.rest_client import RestClient
+from nzbclient.sonarr.series import Series, SeriesSchema
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,8 @@ SYSTEM_STATUS_ENDPOINT = "/system/status"
 
 
 class SonarrClient(RestClient):
+    series_schema = SeriesSchema()
+
     def get_diskspace(self) -> List[Dict]:
         """
         Gets the information on the diskspace of the configured drives
@@ -61,53 +64,25 @@ class SonarrClient(RestClient):
         """
         return self._put(EPISODE_ENDPOINT, episode_data)
 
-    def add_series(
-        self,
-        title: str,
-        title_slug: str,
-        tvdb_id: int,
-        quality_profile_id: int,
-        path: str,
-        images: List[Dict] = None,
-        seasons: List[Dict] = None,
-        season_folder: bool = False,
-        monitored: bool = False,
-        add_options: Dict = None,
-    ) -> Dict:
+    def add_series(self, series: Series, add_options: Dict = None) -> Series:
         """
         Adds a series to Sonarr with the specified data.
 
-        :param title: Title of the series
-        :param title_slug: A slug version of the title
-        :param tvdb_id: Valid TVDB Id
-        :param quality_profile_id: The Id of the Quality Profile to use
-        :param path: The full path to store the Series on the Sonarr server
-        :param images: A list of custom image objects
-        :param seasons: A list of seasons
-        :param season_folder:
-        :param monitored: Flag the Series as monitored
-        :param add_options: Optional list of options when adding the Series
+        :param series: A Series object
+        :param add_options: A dict of the add options
         """
-        # Create the data with the required params
-        series_data = {
-            "title": title,
-            "titleSlug": title_slug,
-            "tvdbId": tvdb_id,
-            "qualityProfileId": quality_profile_id,
-            "path": path,
-            "images": images or [],
-            "seasons": seasons or [],
-            "seasonFolder": season_folder,
-            "monitored": monitored,
-        }
 
-        # Add all optional data if specified
+        # Dump the data from the passed in object
+        series_data = self.series_schema.dump(series)
+
         if add_options is not None:
             series_data["add_options"] = add_options
 
-        return self._post(SERIES_ENDPOINT, series_data)
+        result = self._post(path=SERIES_ENDPOINT, data=series_data)
 
-    def get_series(self, series_id: int = None) -> Union[List[Dict], Dict]:
+        return self.series_schema.load(result)
+
+    def get_series(self, series_id: int = None) -> Union[List[Series], Series]:
         """
         Gets the specified Series by id, or a list of all Series if no Id specified.
 
@@ -116,15 +91,26 @@ class SonarrClient(RestClient):
 
         path = f"{SERIES_ENDPOINT}/{series_id}" if series_id else SERIES_ENDPOINT
 
-        return self._get(path)
+        result = self._get(path)
 
-    def update_series(self, series_data: dict) -> Dict:
+        if isinstance(result, list):
+            return [self.series_schema.load(x) for x in result]
+        else:
+            return self.series_schema.load(result)
+
+    def update_series(self, series: Series) -> Series:
         """
         Updates a series, recommended to do a GET on a specific series, and modify the required data
 
-        :param series_data: The entire dict of the Series data
+        :param series: A Series object
         """
-        return self._put(SERIES_ENDPOINT, series_data)
+
+        # Dump the data from the passed in object
+        series_data = self.series_schema.dump(series)
+
+        result = self._put(SERIES_ENDPOINT, series_data)
+
+        return self.series_schema.load(result)
 
     def delete_series(self, series_id: int) -> Dict:
         """
@@ -135,3 +121,8 @@ class SonarrClient(RestClient):
         path = f"{SERIES_ENDPOINT}/{series_id}" if series_id else SERIES_ENDPOINT
 
         return self._delete(path)
+
+
+if __name__ == "__main__":
+    client = SonarrClient("http://server-pc:8989", "49095f567f67413cb5956f8032950f7e")
+    print(client.get_series(1))
