@@ -9,7 +9,7 @@ setup(
     author="Jeff Blakeney",
     author_email="jblakeneypypi@gmail.com",
     url="https://github.com/jblakeney/nzbclients",
-    keywords=["Radarr", "SABnzbd", "Sonarr", "NZBDrone"],
+    keywords=["radarr", "sabnzbd", "sonarr", "nzbdrone", "nzb"],
     install_requires=["requests"],
     classifiers=[
         "Development Status :: 3 - Alpha",
