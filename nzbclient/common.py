@@ -1,7 +1,19 @@
 from datetime import datetime
 from typing import Union
 
-from marshmallow import fields
+from marshmallow import Schema, fields
+
+
+class Image(object):
+    def __init__(self, cover_type: str = None, url: str = None):
+        self.cover_type = cover_type
+        self.url = url
+
+
+class Ratings(object):
+    def __init__(self, votes: int = None, value: float = None):
+        self.votes = votes
+        self.value = value
 
 
 class SonarrDateTime(fields.Field):
@@ -45,3 +57,29 @@ class SonarrDateTime(fields.Field):
     @staticmethod
     def get_format(millis: bool = False):
         return "%Y-%m-%dT%H:%M:%S.%f" if millis else "%Y-%m-%dT%H:%M:%SZ"
+
+
+class ImageSchema(Schema):
+    class Meta:
+        unknown = "EXCLUDE"
+        allow_none = False
+
+    cover_type = fields.Str(data_key="coverType")
+    url = fields.Str()
+
+    def load(self, data, many=None, partial=None, unknown=None) -> Image:
+        obj = super(Schema, self).load(data, many, partial, unknown)
+        return Image(**obj)
+
+
+class RatingsSchema(Schema):
+    class Meta:
+        unknown = "EXCLUDE"
+        allow_none = False
+
+    votes = fields.Int()
+    value = fields.Float()
+
+    def load(self, data, many=None, partial=None, unknown=None) -> Ratings:
+        obj = super(Schema, self).load(data, many, partial, unknown)
+        return Ratings(**obj)

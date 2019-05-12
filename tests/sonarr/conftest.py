@@ -702,6 +702,15 @@ def profile_json():
 
 
 @pytest.fixture()
+def root_folder_obj():
+    yield [
+        RootFolder(
+            path="C:\\Downloads\\TV", free_space=282500063232, unmapped_folders=[], id=1
+        )
+    ]
+
+
+@pytest.fixture()
 def root_folder_json():
     yield json.loads(
         r"""[
@@ -713,12 +722,3 @@ def root_folder_json():
       }
     ]"""
     )
-
-
-@pytest.fixture()
-def root_folder_obj():
-    yield [
-        RootFolder(
-            path="C:\\Downloads\\TV", free_space=282500063232, unmapped_folders=[], id=1
-        )
-    ]

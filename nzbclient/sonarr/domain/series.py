@@ -3,19 +3,13 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.sonarr.domain.common import SonarrDateTime
+from nzbclient.common import Ratings, Image, SonarrDateTime, RatingsSchema, ImageSchema
 
 
 class AlternateTitle(object):
     def __init__(self, title: str = None, season_number: int = None):
         self.title = title
         self.season_number = season_number
-
-
-class Image(object):
-    def __init__(self, cover_type: str = None, url: str = None):
-        self.cover_type = cover_type
-        self.url = url
 
 
 class Statistics(object):
@@ -46,12 +40,6 @@ class Season(object):
         self.season_number = season_number
         self.monitored = monitored
         self.statistics = statistics
-
-
-class Ratings(object):
-    def __init__(self, votes: int = None, value: float = None):
-        self.votes = votes
-        self.value = value
 
 
 class Series(object):
@@ -150,19 +138,6 @@ class AlternateTitleSchema(Schema):
         return AlternateTitle(**obj)
 
 
-class ImageSchema(Schema):
-    class Meta:
-        unknown = "EXCLUDE"
-        allow_none = False
-
-    cover_type = fields.Str(data_key="coverType")
-    url = fields.Str()
-
-    def load(self, data, many=None, partial=None, unknown=None) -> Image:
-        obj = super(Schema, self).load(data, many, partial, unknown)
-        return Image(**obj)
-
-
 class StatisticsSchema(Schema):
     class Meta:
         unknown = "EXCLUDE"
@@ -192,19 +167,6 @@ class SeasonSchema(Schema):
     def load(self, data, many=None, partial=None, unknown=None) -> Season:
         obj = super(Schema, self).load(data, many, partial, unknown)
         return Season(**obj)
-
-
-class RatingsSchema(Schema):
-    class Meta:
-        unknown = "EXCLUDE"
-        allow_none = False
-
-    votes = fields.Int()
-    value = fields.Float()
-
-    def load(self, data, many=None, partial=None, unknown=None) -> Ratings:
-        obj = super(Schema, self).load(data, many, partial, unknown)
-        return Ratings(**obj)
 
 
 class SeriesSchema(Schema):

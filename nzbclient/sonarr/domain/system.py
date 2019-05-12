@@ -3,7 +3,7 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.sonarr.domain.common import SonarrDateTime
+from nzbclient.common import SonarrDateTime
 
 
 class DiskSpace(object):
