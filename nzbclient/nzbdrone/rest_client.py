@@ -43,6 +43,7 @@ class RestClient(object):
         url = f"{self._url}/{self._api_root}{path}"
 
         # Update our params and add the API Key
+        params = {} if params is None else params
         params.update({"apikey": self._api_key})
 
         response = self._session.request(

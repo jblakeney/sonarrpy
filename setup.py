@@ -8,8 +8,8 @@ setup(
     description="A library of unofficial library of clients for interacting with programs that download NZB files.",
     author="Jeff Blakeney",
     author_email="jblakeneypypi@gmail.com",
-    url="https://github.com/jblakeney/sonarrpy",
-    keywords=["Radarr", "SABnzbd", "Sonarr", "NZBDrone"],
+    url="https://github.com/jblakeney/nzbclients",
+    keywords=["radarr", "sabnzbd", "sonarr", "nzbdrone", "nzb"],
     install_requires=["requests"],
     classifiers=[
         "Development Status :: 3 - Alpha",

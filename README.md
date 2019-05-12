@@ -1,5 +1,8 @@
-# sonarrpy
-A library of unofficial library of clients for interacting with programs that download NZB files.
+NZB Clients
+===========
+[![Build Status](https://travis-ci.org/jblakeney/nzbclients.svg?branch=master)](https://travis-ci.org/jblakeney/nzbclients)
+
+A collection of unofficial client libraries for interacting with programs that download NZB files.
 
 Supported clients so far are:
 - Sonarr
@@ -13,8 +16,7 @@ Requirements
 
 - Python >= 3.6
 
-
 License
 =======
 
-MIT licensed. See the bundled `LICENSE <https://github.com/jblakeney/sonarrpy/blob/master/LICENSE>`_ file for more details.
+MIT licensed. See the bundled `LICENSE <https://github.com/jblakeney/nzbclients/blob/master/LICENSE>`_ file for more details.
