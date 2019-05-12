@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from nzbclientz.nzbdrone.common import (
+from nzbclients.nzbdrone.common import (
     DiskSpaceSchema,
     RootFolderSchema,
     SystemStatusSchema,

@@ -1,14 +1,14 @@
 import logging
 from typing import Dict, List, Union
 
-from nzbclientz.nzbdrone.radarr.domain.movie import Movie, MovieSchema
-from nzbclientz.nzbdrone.common import (
+from nzbclients.nzbdrone.radarr.domain.movie import Movie, MovieSchema
+from nzbclients.nzbdrone.common import (
     DiskSpace,
     DiskSpaceSchema,
     SystemStatus,
     SystemStatusSchema,
 )
-from nzbclientz.nzbdrone.rest_client import RestClient
+from nzbclients.nzbdrone.rest_client import RestClient
 
 logger = logging.getLogger(__name__)
 

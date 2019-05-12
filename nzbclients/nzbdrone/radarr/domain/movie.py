@@ -3,7 +3,7 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclientz.nzbdrone.common import Image, ImageSchema, Ratings, RatingsSchema
+from nzbclients.nzbdrone.common import Image, ImageSchema, Ratings, RatingsSchema
 
 {
     "sourceType": "tmdb",

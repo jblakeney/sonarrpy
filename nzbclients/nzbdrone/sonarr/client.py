@@ -1,11 +1,11 @@
 import logging
 from typing import Dict, List, Union
 
-from nzbclientz.nzbdrone.rest_client import RestClient
-from nzbclientz.nzbdrone.sonarr.domain.episode import Episode, EpisodeSchema
-from nzbclientz.nzbdrone.sonarr.domain.profile import Profile, ProfileSchema
-from nzbclientz.nzbdrone.sonarr.domain.series import Series, SeriesSchema
-from nzbclientz.nzbdrone.common import (
+from nzbclients.nzbdrone.rest_client import RestClient
+from nzbclients.nzbdrone.sonarr.domain.episode import Episode, EpisodeSchema
+from nzbclients.nzbdrone.sonarr.domain.profile import Profile, ProfileSchema
+from nzbclients.nzbdrone.sonarr.domain.series import Series, SeriesSchema
+from nzbclients.nzbdrone.common import (
     DiskSpace,
     DiskSpaceSchema,
     SystemStatus,

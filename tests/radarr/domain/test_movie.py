@@ -1,4 +1,4 @@
-from nzbclientz.nzbdrone.radarr.domain.movie import MovieSchema
+from nzbclients.nzbdrone.radarr.domain.movie import MovieSchema
 
 
 def test_movie_serialization(movie_json):
