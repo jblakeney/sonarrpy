@@ -3,7 +3,13 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.common import Image, ImageSchema, Ratings, RatingsSchema, SonarrDateTime
+from nzbclient.nzbdrone.common import (
+    Image,
+    ImageSchema,
+    Ratings,
+    RatingsSchema,
+    SonarrDateTime,
+)
 
 
 class AlternateTitle(object):

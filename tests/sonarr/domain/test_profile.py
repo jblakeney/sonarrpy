@@ -1,4 +1,4 @@
-from nzbclient.sonarr.domain.profile import ProfileSchema
+from nzbclient.nzbdrone.sonarr.domain.profile import ProfileSchema
 
 
 def test_profile_serialization(profile_json):

@@ -3,8 +3,8 @@ from datetime import datetime
 
 import pytest
 
-from nzbclient.common import Image, Ratings
-from nzbclient.radarr.domain.movie import AlternateTitle, Movie
+from nzbclient.nzbdrone.common import Image, Ratings
+from nzbclient.nzbdrone.radarr.domain.movie import AlternateTitle, Movie
 
 
 @pytest.fixture()

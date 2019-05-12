@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from nzbclient.sonarr.domain.system import (
+from nzbclient.nzbdrone.common import (
     DiskSpaceSchema,
     RootFolderSchema,
     SystemStatusSchema,

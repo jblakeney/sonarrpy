@@ -1,15 +1,13 @@
 import logging
 from typing import Dict, List, Union
 
-from nzbclient.rest_client import RestClient
-from nzbclient.sonarr.domain.episode import Episode, EpisodeSchema
-from nzbclient.sonarr.domain.profile import Profile, ProfileSchema
-from nzbclient.sonarr.domain.series import Series, SeriesSchema
-from nzbclient.sonarr.domain.system import (
+from nzbclient.nzbdrone.rest_client import RestClient
+from nzbclient.nzbdrone.sonarr.domain.episode import Episode, EpisodeSchema
+from nzbclient.nzbdrone.sonarr.domain.profile import Profile, ProfileSchema
+from nzbclient.nzbdrone.sonarr.domain.series import Series, SeriesSchema
+from nzbclient.nzbdrone.common import (
     DiskSpace,
     DiskSpaceSchema,
-    RootFolder,
-    RootFolderSchema,
     SystemStatus,
     SystemStatusSchema,
 )
@@ -28,7 +26,7 @@ class SonarrClient(RestClient):
     episode_schema = EpisodeSchema()
     profile_schema = ProfileSchema()
     series_schema = SeriesSchema()
-    system_status = SystemStatus()
+    system_status_schema = SystemStatusSchema()
 
     def get_diskspace(self) -> List[DiskSpace]:
         """
@@ -44,7 +42,7 @@ class SonarrClient(RestClient):
         """
         result = self._get(path=SYSTEM_STATUS_ENDPOINT)
 
-        return self.system_status.load(result)
+        return self.system_status_schema.load(result)
 
     def get_profiles(self) -> List[Profile]:
         """
@@ -148,9 +146,3 @@ class SonarrClient(RestClient):
         path = f"{SERIES_ENDPOINT}/{series_id}" if series_id else SERIES_ENDPOINT
 
         return self._delete(path=path)
-
-
-if __name__ == "__main__":
-    client = SonarrClient("http://server-pc:8989", "49095f567f67413cb5956f8032950f7e")
-    print(client.get_series(1))
-    print(client.get_profiles())

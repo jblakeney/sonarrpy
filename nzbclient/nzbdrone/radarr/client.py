@@ -1,16 +1,42 @@
 import logging
 from typing import Dict, List, Union
 
-from nzbclient.radarr.domain.movie import Movie, MovieSchema
-from nzbclient.rest_client import RestClient
+from nzbclient.nzbdrone.radarr.domain.movie import Movie, MovieSchema
+from nzbclient.nzbdrone.common import (
+    DiskSpace,
+    DiskSpaceSchema,
+    SystemStatus,
+    SystemStatusSchema,
+)
+from nzbclient.nzbdrone.rest_client import RestClient
 
 logger = logging.getLogger(__name__)
 
+DISKSPACE_ENDPOINT = "/diskspace"
 MOVIE_ENDPOINT = "/movie"
+SYSTEM_STATUS_ENDPOINT = "/system/status"
 
 
 class RadarrClient(RestClient):
+    diskspace_schema = DiskSpaceSchema()
     movie_schema = MovieSchema()
+    system_status_schema = SystemStatusSchema()
+
+    def get_diskspace(self) -> List[DiskSpace]:
+        """
+        Gets the information on the diskspace of the configured drives
+        """
+        result = self._get(path=DISKSPACE_ENDPOINT)
+
+        return [self.diskspace_schema.load(x) for x in result]
+
+    def get_system_status(self) -> SystemStatus:
+        """
+        Gets the system status from the Sonarr server
+        """
+        result = self._get(path=SYSTEM_STATUS_ENDPOINT)
+
+        return self.system_status_schema.load(result)
 
     def add_movie(self, movie: Movie, add_options: Dict = None) -> Movie:
         """
@@ -69,8 +95,3 @@ class RadarrClient(RestClient):
         path = f"{MOVIE_ENDPOINT}/{movie_id}" if movie_id else MOVIE_ENDPOINT
 
         return self._delete(path=path)
-
-
-if __name__ == "__main__":
-    client = RadarrClient("http://server-pc:7878", "7f3c6f54c3b348a583c79524c6bd379e")
-    print(client.get_movie(1).title)
