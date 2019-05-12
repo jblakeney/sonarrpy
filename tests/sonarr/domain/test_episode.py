@@ -1,9 +1,6 @@
 from datetime import date, datetime
 
-import pytest
-from marshmallow import ValidationError
-
-from nzbclient.sonarr.episode import EpisodeSchema
+from nzbclient.sonarr.domain.episode import EpisodeSchema
 
 
 def test_episode_serialization(episode_json):

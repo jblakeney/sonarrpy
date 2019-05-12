@@ -2,7 +2,7 @@ from datetime import date, datetime
 
 from marshmallow import Schema, fields
 
-from nzbclient.sonarr.common import SonarrDateTime
+from nzbclient.sonarr.domain.common import SonarrDateTime
 
 
 class Episode(object):

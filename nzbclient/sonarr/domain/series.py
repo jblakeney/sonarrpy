@@ -3,7 +3,7 @@ from typing import List
 
 from marshmallow import Schema, fields
 
-from nzbclient.sonarr.common import SonarrDateTime
+from nzbclient.sonarr.domain.common import SonarrDateTime
 
 
 class AlternateTitle(object):
@@ -243,7 +243,7 @@ class SeriesSchema(Schema):
     tv_rage_id = fields.Int(data_key="tvRageId")
     tv_maze_id = fields.Int(data_key="tvMazeId")
     first_aired = SonarrDateTime(data_key="firstAired")
-    last_info_sync = SonarrDateTime(data_key="lastInfoSync", millis=True)
+    last_info_sync = SonarrDateTime(data_key="lastInfoSync")
     series_type = fields.Str(data_key="seriesType")
     clean_title = fields.Str(data_key="cleanTitle")
     imdb_id = fields.Str(data_key="imdbId")

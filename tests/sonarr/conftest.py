@@ -3,8 +3,8 @@ from datetime import date, datetime
 
 import pytest
 
-from nzbclient.sonarr.episode import Episode
-from nzbclient.sonarr.series import (
+from nzbclient.sonarr.domain.episode import Episode
+from nzbclient.sonarr.domain.series import (
     AlternateTitle,
     Image,
     Ratings,
@@ -12,6 +12,8 @@ from nzbclient.sonarr.series import (
     Series,
     Statistics,
 )
+from nzbclient.sonarr.domain.system import DiskSpace, RootFolder, SystemStatus
+from nzbclient.sonarr.domain.profile import Item, Profile, Quality
 
 
 @pytest.fixture()
@@ -225,4 +227,496 @@ def series_json():
         "qualityProfileId": 6,
         "id": 7
     }"""
+    )
+
+
+@pytest.fixture()
+def system_status_obj():
+    yield SystemStatus(
+        version="2.0.0.1121",
+        build_time=datetime(2014, 2, 8, 20, 49, 36, 556039),
+        is_debug=False,
+        is_production=True,
+        is_admin=True,
+        is_user_interactive=False,
+        startup_path="C:\\ProgramData\\NzbDrone\\bin",
+        app_data="C:\\ProgramData\\NzbDrone",
+        os_version="6.2.9200.0",
+        is_mono=False,
+        is_linux=False,
+        is_windows=False,
+        branch="develop",
+        authentication=False,
+        start_of_week=0,
+        url_base="",
+    )
+
+
+@pytest.fixture()
+def system_status_json():
+    yield json.loads(
+        """{
+      "version": "2.0.0.1121",
+      "buildTime": "2014-02-08T20:49:36.5560392Z",
+      "isDebug": false,
+      "isProduction": true,
+      "isAdmin": true,
+      "isUserInteractive": false,
+      "startupPath": "C:\\ProgramData\\NzbDrone\\bin",
+      "appData": "C:\\ProgramData\\NzbDrone",
+      "osVersion": "6.2.9200.0",
+      "isMono": false,
+      "isLinux": false,
+      "isWindows": true,
+      "branch": "develop",
+      "authentication": false,
+      "startOfWeek": 0,
+      "urlBase": ""
+    }"""
+    )
+
+
+@pytest.fixture()
+def disk_space_obj():
+    yield [
+        DiskSpace(
+            path="C:\\", label="", free_space=282500067328, total_space=499738734592
+        )
+    ]
+
+
+@pytest.fixture()
+def disk_space_json():
+    yield json.loads(
+        r"""[
+      {
+        "path": "C:\\",
+        "label": "",
+        "freeSpace": 282500067328,
+        "totalSpace": 499738734592
+      }
+    ]"""
+    )
+
+
+@pytest.fixture()
+def profile_obj():
+    yield [
+        Profile(
+            name="SD",
+            cutoff=Quality(id=1, name="SDTV"),
+            items=[
+                Item(quality=Quality(id=1, name="SDTV"), allowed=True),
+                Item(quality=Quality(id=8, name="WEBDL-480p"), allowed=True),
+                Item(quality=Quality(id=2, name="DVD"), allowed=True),
+                Item(quality=Quality(id=4, name="HDTV-720p"), allowed=False),
+                Item(quality=Quality(id=9, name="HDTV-1080p"), allowed=False),
+                Item(quality=Quality(id=10, name="Raw-HD"), allowed=False),
+                Item(quality=Quality(id=5, name="WEBDL-720p"), allowed=False),
+                Item(quality=Quality(id=6, name="Bluray-720p"), allowed=False),
+                Item(quality=Quality(id=3, name="WEBDL-1080-p"), allowed=False),
+                Item(quality=Quality(id=7, name="Bluray-1080p"), allowed=False),
+            ],
+            id=1,
+        ),
+        Profile(
+            name="HD 720p",
+            cutoff=Quality(id=4, name="HDTV-720p"),
+            items=[
+                Item(quality=Quality(id=1, name="SDTV"), allowed=False),
+                Item(quality=Quality(id=8, name="WEBDL-480p"), allowed=False),
+                Item(quality=Quality(id=2, name="DVD"), allowed=False),
+                Item(quality=Quality(id=4, name="HDTV-720p"), allowed=True),
+                Item(quality=Quality(id=9, name="HDTV-1080p"), allowed=False),
+                Item(quality=Quality(id=10, name="Raw-HD"), allowed=False),
+                Item(quality=Quality(id=5, name="WEBDL-720p"), allowed=True),
+                Item(quality=Quality(id=6, name="Bluray-720p"), allowed=True),
+                Item(quality=Quality(id=3, name="WEBDL-1080-p"), allowed=False),
+                Item(quality=Quality(id=7, name="Bluray-1080p"), allowed=False),
+            ],
+            id=2,
+        ),
+        Profile(
+            name="HD 1080p",
+            cutoff=Quality(id=9, name="HDTV-1080p"),
+            items=[
+                Item(quality=Quality(id=1, name="SDTV"), allowed=False),
+                Item(quality=Quality(id=8, name="WEBDL-480p"), allowed=False),
+                Item(quality=Quality(id=2, name="DVD"), allowed=False),
+                Item(quality=Quality(id=4, name="HDTV-720p"), allowed=False),
+                Item(quality=Quality(id=9, name="HDTV-1080p"), allowed=True),
+                Item(quality=Quality(id=10, name="Raw-HD"), allowed=False),
+                Item(quality=Quality(id=5, name="WEBDL-720p"), allowed=False),
+                Item(quality=Quality(id=6, name="Bluray-720p"), allowed=False),
+                Item(quality=Quality(id=3, name="WEBDL-1080-p"), allowed=True),
+                Item(quality=Quality(id=7, name="Bluray-1080p"), allowed=True),
+            ],
+            id=3,
+        ),
+        Profile(
+            name="HD - All",
+            cutoff=Quality(id=4, name="HDTV-720p"),
+            items=[
+                Item(quality=Quality(id=1, name="SDTV"), allowed=False),
+                Item(quality=Quality(id=8, name="WEBDL-480p"), allowed=False),
+                Item(quality=Quality(id=2, name="DVD"), allowed=False),
+                Item(quality=Quality(id=4, name="HDTV-720p"), allowed=True),
+                Item(quality=Quality(id=9, name="HDTV-1080p"), allowed=True),
+                Item(quality=Quality(id=10, name="Raw-HD"), allowed=False),
+                Item(quality=Quality(id=5, name="WEBDL-720p"), allowed=True),
+                Item(quality=Quality(id=6, name="Bluray-720p"), allowed=True),
+                Item(quality=Quality(id=3, name="WEBDL-1080-p"), allowed=True),
+                Item(quality=Quality(id=7, name="Bluray-1080p"), allowed=True),
+            ],
+            id=4,
+        ),
+    ]
+
+
+@pytest.fixture()
+def profile_json():
+    yield json.loads(
+        """[
+      {
+        "name": "SD",
+        "cutoff": {
+          "id": 1,
+          "name": "SDTV"
+        },
+        "items": [
+          {
+            "quality": {
+              "id": 1,
+              "name": "SDTV"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 8,
+              "name": "WEBDL-480p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 2,
+              "name": "DVD"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 4,
+              "name": "HDTV-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 9,
+              "name": "HDTV-1080p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 10,
+              "name": "Raw-HD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 5,
+              "name": "WEBDL-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 6,
+              "name": "Bluray-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 3,
+              "name": "WEBDL-1080p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 7,
+              "name": "Bluray-1080p"
+            },
+            "allowed": false
+          }
+        ],
+        "id": 1
+      },
+      {
+        "name": "HD 720p",
+        "cutoff": {
+          "id": 4,
+          "name": "HDTV-720p"
+        },
+        "items": [
+          {
+            "quality": {
+              "id": 1,
+              "name": "SDTV"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 8,
+              "name": "WEBDL-480p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 2,
+              "name": "DVD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 4,
+              "name": "HDTV-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 9,
+              "name": "HDTV-1080p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 10,
+              "name": "Raw-HD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 5,
+              "name": "WEBDL-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 6,
+              "name": "Bluray-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 3,
+              "name": "WEBDL-1080p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 7,
+              "name": "Bluray-1080p"
+            },
+            "allowed": false
+          }
+        ],
+        "id": 2
+      },
+      {
+        "name": "HD 1080p",
+        "cutoff": {
+          "id": 9,
+          "name": "HDTV-1080p"
+        },
+        "items": [
+          {
+            "quality": {
+              "id": 1,
+              "name": "SDTV"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 8,
+              "name": "WEBDL-480p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 2,
+              "name": "DVD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 4,
+              "name": "HDTV-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 9,
+              "name": "HDTV-1080p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 10,
+              "name": "Raw-HD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 5,
+              "name": "WEBDL-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 6,
+              "name": "Bluray-720p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 3,
+              "name": "WEBDL-1080p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 7,
+              "name": "Bluray-1080p"
+            },
+            "allowed": true
+          }
+        ],
+        "id": 3
+      },
+      {
+        "name": "HD - All",
+        "cutoff": {
+          "id": 4,
+          "name": "HDTV-720p"
+        },
+        "items": [
+          {
+            "quality": {
+              "id": 1,
+              "name": "SDTV"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 8,
+              "name": "WEBDL-480p"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 2,
+              "name": "DVD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 4,
+              "name": "HDTV-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 9,
+              "name": "HDTV-1080p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 10,
+              "name": "Raw-HD"
+            },
+            "allowed": false
+          },
+          {
+            "quality": {
+              "id": 5,
+              "name": "WEBDL-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 6,
+              "name": "Bluray-720p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 3,
+              "name": "WEBDL-1080p"
+            },
+            "allowed": true
+          },
+          {
+            "quality": {
+              "id": 7,
+              "name": "Bluray-1080p"
+            },
+            "allowed": true
+          }
+        ],
+        "id": 4
+      }
+    ]"""
+    )
+
+
+@pytest.fixture()
+def root_folder_json():
+    yield json.loads(
+        """[
+      {
+        "path": "C:\\Downloads\\TV",
+        "freeSpace": 282500063232,
+        "unmappedFolders": [],
+        "id": 1
+      }
+    ]"""
+    )
+
+
+@pytest.fixture()
+def root_folder_json():
+    yield RootFolder(
+        path="C:\\Downloads\\TV", free_space=282500063232, unmapped_folders=[], id=1
     )

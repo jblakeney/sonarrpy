@@ -2,8 +2,17 @@ import logging
 from typing import Dict, List, Union
 
 from nzbclient.rest_client import RestClient
-from nzbclient.sonarr.episode import Episode, EpisodeSchema
-from nzbclient.sonarr.series import Series, SeriesSchema
+from nzbclient.sonarr.domain.episode import Episode, EpisodeSchema
+from nzbclient.sonarr.domain.series import Series, SeriesSchema
+from nzbclient.sonarr.domain.system import (
+    DiskSpace,
+    DiskSpaceSchema,
+    RootFolder,
+    RootFolderSchema,
+    SystemStatus,
+    SystemStatusSchema,
+)
+from nzbclient.sonarr.domain.profile import Profile, ProfileSchema
 
 logger = logging.getLogger(__name__)
 
@@ -15,26 +24,35 @@ SYSTEM_STATUS_ENDPOINT = "/system/status"
 
 
 class SonarrClient(RestClient):
+    diskspace_schema = DiskSpaceSchema()
     episode_schema = EpisodeSchema()
+    profile_schema = ProfileSchema()
     series_schema = SeriesSchema()
+    system_status = SystemStatus()
 
-    def get_diskspace(self) -> List[Dict]:
+    def get_diskspace(self) -> List[DiskSpace]:
         """
         Gets the information on the diskspace of the configured drives
         """
-        return self._get(path=DISKSPACE_ENDPOINT)
+        result = self._get(path=DISKSPACE_ENDPOINT)
 
-    def get_system_status(self) -> Dict:
+        return [self.diskspace_schema.load(x) for x in result]
+
+    def get_system_status(self) -> SystemStatus:
         """
         Gets the system status from the Sonarr server
         """
-        return self._get(path=SYSTEM_STATUS_ENDPOINT)
+        result = self._get(path=SYSTEM_STATUS_ENDPOINT)
 
-    def get_profile(self) -> List[Dict]:
+        return self.system_status.load(result)
+
+    def get_profile(self) -> List[Profile]:
         """
         Gets a list of all available quality profiles
         """
-        return self._get(path=PROFILE_ENDPOINT)
+        result = self._get(path=PROFILE_ENDPOINT)
+
+        return [self.profile_schema.load(x) for x in result]
 
     def get_episode(self, episode_id: int = None, series_id: int = None) -> Episode:
         """
