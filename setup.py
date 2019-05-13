@@ -1,9 +1,9 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name="nzbclients",
-    packages=["nzbclients"],
-    version="0.1.0",
+    packages=find_packages(exclude=["tests*"]),
+    version="0.1.1",
     license="MIT",
     description="A library of unofficial library of clients for interacting with programs that download NZB files.",
     author="Jeff Blakeney",
