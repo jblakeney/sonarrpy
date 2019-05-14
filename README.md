@@ -5,9 +5,9 @@ NZB Clients
 A collection of unofficial client libraries for interacting with programs that download NZB files.
 
 Supported clients so far are:
-- Sonarr
-- Radarr
-- SABnzbd (coming soon)
+- [Sonarr](https://github.com/Sonarr/Sonarr)
+- [Radarr](https://github.com/Radarr/Radarr)
+- [SABnzbd](https://github.com/sabnzbd/sabnzbd) (coming soon)
 
 Feel free to open an issue with any suggestions on further clients to support
 
